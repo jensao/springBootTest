@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring static page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <!-- Custom styles for this template -->
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                    <li role="presentation"><a href="#">About</a></li>
+                    <li role="presentation"><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <h3 class="text-muted">Spring boot test</h3>
+        </div>
+        <div class="jumbotron">
+            <h3>See my cool REST Greeting api here</h3>
+            <p>
+                <ul>
+                    <li><a href="http://localhost:8080/greeting/">List all greetings</a></li>
+                    <li><a href="http://localhost:8080/greeting/1">List a specific greeting</a></li>
+                </ul>
+            </p>
+
+            <h3>See my cool REST sshlog api here</h3>
+            <p>
+            <ul>
+                <li><a href="http://localhost:8080/sshlog/">List all ssh logs</a></li>
+            </ul>
+            </p>
+        </div>
+
+    </div>
+</body>
+</html>
