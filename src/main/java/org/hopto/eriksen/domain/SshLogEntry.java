@@ -1,8 +1,15 @@
 package org.hopto.eriksen.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.net.InetAddress;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * A Class that represents a ssh log entry in the auth.log
@@ -10,17 +17,18 @@ import java.time.LocalDate;
 @Entity
 public class SshLogEntry {
 
-
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-//    @XmlJavaTypeAdapter(InetAddressAdapter.class)
     @Column(nullable = false)
     private InetAddress ipNumber;
 
     @Column(nullable = false)
-    private LocalDate date;
+    // This was needed when I used the LocalDateTime but not when only using LocalDate
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    // Change this member name to something else than "date" and you will get duplicated date records in the json
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private String userName;
@@ -30,9 +38,9 @@ public class SshLogEntry {
 
     protected SshLogEntry() {}
 
-    public SshLogEntry(InetAddress ipNumber, LocalDate date, String userName, boolean loggedIn) {
+    public SshLogEntry(InetAddress ipNumber, LocalDateTime dateTime, String userName, boolean loggedIn) {
         this.ipNumber = ipNumber;
-        this.date = date;
+        this.date = dateTime;
         this.userName = userName;
         this.loggedIn = loggedIn;
     }
@@ -46,7 +54,7 @@ public class SshLogEntry {
         return ipNumber;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -63,7 +71,7 @@ public class SshLogEntry {
         return "SshLogEntry{" +
                 "id=" + id +
                 ", ipNumber=" + ipNumber +
-                ", date=" + date +
+                ", dateTime=" + date +
                 ", userName='" + userName + '\'' +
                 ", loggedIn=" + loggedIn +
                 '}';
