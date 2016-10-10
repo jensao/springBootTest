@@ -1,14 +1,12 @@
 package org.hopto.eriksen.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.net.InetAddress;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -21,18 +19,23 @@ public class SshLogEntry {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(nullable = false)
     private InetAddress ipNumber;
 
+    @NotNull
     @Column(nullable = false)
     // This was needed when I used the LocalDateTime but not when only using LocalDate
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     // Change this member name to something else than "date" and you will get duplicated date records in the json
     private LocalDateTime date;
 
+    @NotNull
+    @Size(min = 2, max = 100)
     @Column(nullable = false)
     private String userName;
 
+    @NotNull
     @Column(nullable = false)
     private boolean loggedIn;
 
@@ -64,6 +67,29 @@ public class SshLogEntry {
 
     public boolean isLoggedIn() {
         return loggedIn;
+    }
+
+
+    // This is needed so that the MVC endpoint can parse request parameters directly
+    // into an instance of this class. Is it possible to do it without losing imutability?
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setIpNumber(InetAddress ipNumber) {
+        this.ipNumber = ipNumber;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     @Override

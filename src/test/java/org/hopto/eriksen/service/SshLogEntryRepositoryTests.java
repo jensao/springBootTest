@@ -13,14 +13,16 @@ import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import static org.junit.Assert.assertEquals;
 
 /**
  * Some silly test to learn more about jpa-data and integration tests
  *
+ * See: https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4
  */
 @RunWith(SpringRunner.class)    // SpringRunner is the new name for SpringJUnit4ClassRunner.class
-@SpringBootTest()               // Since spring 1.4 the new to do it instead of @SpringApplicationConfiguration(Application.class)
+@SpringBootTest()               // Since spring 1.4 - the new way to do it instead of @SpringApplicationConfiguration(Application.class)
 public class SshLogEntryRepositoryTests {
 
     @Autowired
