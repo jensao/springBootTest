@@ -1,18 +1,33 @@
 package org.hopto.eriksen;
 
+import org.hopto.eriksen.domain.SshLogEntry;
 import org.hopto.eriksen.service.SshLogEntryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
 @SpringBootApplication
 public class Application {
+
+
+	/**
+	 * This is another way to initialize test data or anything similar
+	 * It breaks some test due to "No qualifying bean found ... SshLogEntryRepository"
+	 */
+//	@Bean
+//	InitializingBean populateTestData(SshLogEntryRepository sshLogEntryRepository) {
+//		return () -> {
+////			sshLogEntryRepository.save(new SshLogEntry(...));
+//		};
+//	}
 
 	public static void main(String[] args) {
 		// Tell Boot to look for sshlogentry-server.yml
@@ -38,7 +53,7 @@ class CommandLineHandler implements CommandLineRunner {
 
 	@Override
 	public void run(String ...args) throws Exception {
-		System.out.println("HERE WOULD YOU BE ABLE TO INSERT TEST VALUES");
+//		System.out.println("HERE WOULD YOU BE ABLE TO INSERT TEST VALUES");
 
 		StringBuilder stringBuilder = new StringBuilder();
 		for(String arg : args) {

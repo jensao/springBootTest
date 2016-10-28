@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Some silly test to learn more about jpa-data and integration tests
@@ -22,23 +24,33 @@ import static org.junit.Assert.assertEquals;
  * See: https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4
  */
 @RunWith(SpringRunner.class)    // SpringRunner is the new name for SpringJUnit4ClassRunner.class
-@SpringBootTest()               // Since spring 1.4 - the new way to do it instead of @SpringApplicationConfiguration(Application.class)
+@DataJpaTest                    // This is the correct annotation to use for testing the JPA slice
 public class SshLogEntryRepositoryTests {
 
     @Autowired
     SshLogEntryRepository sshLogEntryRepository;
 
+    LocalDateTime dateTime2 = LocalDateTime.now();
+    InetAddress inetAddress2;
+
     @Before
     public void init() throws UnknownHostException {
-        SshLogEntry entry1 = new SshLogEntry(InetAddress.getByName("196.37.77.66"), LocalDateTime.now(), "dup", false);
+        SshLogEntry entry1 = new SshLogEntry(InetAddress.getByName("196.37.77.66"), LocalDateTime.now(),"dup", false);
         sshLogEntryRepository.save(entry1);
-        SshLogEntry entry2 = new SshLogEntry(InetAddress.getByName("192.168.1.1"), LocalDateTime.now(), "root", false);
+        inetAddress2 = InetAddress.getByName("192.168.1.1");
+        SshLogEntry entry2 = new SshLogEntry(inetAddress2, dateTime2, "root", false);
         sshLogEntryRepository.save(entry2);
     }
 
+    /**
+     * Test the created "findByUserName" method
+     */
     @Test
-    public void testFindByUserName() {
-        List<SshLogEntry> sshLogEntries =  sshLogEntryRepository.findByUserName("root");
-        assertEquals(1, sshLogEntries.size());
+    public void testFindByUserName() throws UnknownHostException {
+        SshLogEntry sshLogEntry =  sshLogEntryRepository.findByUserName("root").get(0);
+        assertEquals("root", sshLogEntry.getUserName());
+        assertEquals(inetAddress2, sshLogEntry.getIpNumber());
+        assertEquals(dateTime2, sshLogEntry.getDate());
+        assertFalse(sshLogEntry.isLoggedIn());
     }
 }
