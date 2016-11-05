@@ -51,7 +51,7 @@ public class SshLogEntryController {
         log.debug("Received a the page number " + pageNumber);
 
         PageRequest pageRequest =
-                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.DESC, "date");
+                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "date");
 
         return sshLogEntryRepository.findAll(pageRequest);
     }
@@ -62,7 +62,7 @@ public class SshLogEntryController {
      * TODO: This method can't handle a request param which contains "&ipNumber=91.224.161.103"
      *       It would also be great if a more advance search functionality was implemented, e.g Specification<T>
      *
-     * http://localhost:8080/sshlog/search?page=1&loggedIn=false&userName=root
+     * curl -i http://localhost:8080/sshlog/search?page=1&loggedIn=false&userName=root
      *
      */
     @RequestMapping(value="/search", method= RequestMethod.GET)
@@ -74,7 +74,7 @@ public class SshLogEntryController {
         log.debug("In search endpoint, received a search= " + search);
 
         PageRequest pageRequest =
-                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.DESC, "date");
+                new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "date");
 
         Example<SshLogEntry> example = Example.of(search);
 

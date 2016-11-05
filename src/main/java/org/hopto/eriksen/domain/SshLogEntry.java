@@ -17,6 +17,7 @@ public class SshLogEntry {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(nullable = false)
     private Long id;
 
     @NotNull
@@ -32,7 +33,7 @@ public class SshLogEntry {
 
     @NotNull
     @Size(min = 2, max = 100)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String userName;
 
     @NotNull
