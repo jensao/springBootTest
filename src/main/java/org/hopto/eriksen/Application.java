@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
-@SpringBootApplication
+@SpringBootApplication	// same as @Configuration @EnableAutoConfiguration @ComponentScan
 public class Application {
 
 
@@ -52,7 +52,7 @@ class CommandLineHandler implements CommandLineRunner {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		for(String arg : args) {
-			stringBuilder.append(arg + " ");
+			stringBuilder.append(arg).append(" ");
 		}
 		log.info("Provided command lines: " + stringBuilder );
 

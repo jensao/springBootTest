@@ -1,6 +1,7 @@
 package org.hopto.eriksen.controller;
 
 import org.hopto.eriksen.domain.SshLogEntry;
+import org.hopto.eriksen.domain.UserNameStatistics;
 import org.hopto.eriksen.service.SshLogEntryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -48,7 +53,7 @@ public class SshLogEntryController {
     Page<SshLogEntry> getAllEntries(
             @RequestParam(value="page", defaultValue = "1") Integer pageNumber) {
 
-        log.debug("Received a the page number " + pageNumber);
+        log.debug("Received a get request to /sshlog with page number " + pageNumber);
 
         PageRequest pageRequest =
                 new PageRequest(pageNumber - 1, PAGE_SIZE, Sort.Direction.ASC, "date");
@@ -90,6 +95,7 @@ public class SshLogEntryController {
     public ResponseEntity<SshLogEntry> createSshLogEntry(@Valid @RequestBody SshLogEntry sshLogEntry) {
 
         log.debug("SshLogEntry received for storage: " + sshLogEntry.toString());
+        // OBS check for second order injection here !!!
 
         // TODO Validate that we don't store duplicates entries
         sshLogEntryRepository.save(sshLogEntry);
@@ -103,6 +109,26 @@ public class SshLogEntryController {
 
     }
 
+    // TODO not complete, see the SshLogEntryRepository.class for fault reason
+    /**
+     * GET - Returns the number of times a user has (tried) to log in.
+     *
+     * curl -i http://localhost:8080/sshlog/userstat
+     */
+    @RequestMapping(value="/userstat", method= RequestMethod.GET)
+    public ResponseEntity<Map<String, Integer>> getMostFrequentLoginNames() {
+
+        List<UserNameStatistics> respons =  sshLogEntryRepository.mostFrequentLoginNames();
+        log.info("The response: " + respons);
+
+        // remove, Used for testing the response
+        Map<String, Integer> usersVsLogin = new HashMap<>();
+        usersVsLogin.put("root", 6);
+        usersVsLogin.put("admin", 3);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        return new ResponseEntity<>(usersVsLogin, responseHeaders, HttpStatus.OK);
+    }
 
     /**
      * GET - a specific item

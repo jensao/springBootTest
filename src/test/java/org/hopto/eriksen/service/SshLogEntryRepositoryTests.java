@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.InetAddress;
@@ -23,13 +24,14 @@ import static org.junit.Assert.assertFalse;
  */
 @RunWith(SpringRunner.class)    // SpringRunner is the new name for SpringJUnit4ClassRunner.class
 @DataJpaTest                    // This is the correct annotation to use for testing the JPA slice
+@ActiveProfiles("test")
 public class SshLogEntryRepositoryTests {
 
     @Autowired
     SshLogEntryRepository sshLogEntryRepository;
 
-    LocalDateTime dateTime2 = LocalDateTime.now();
-    InetAddress inetAddress2;
+    private LocalDateTime dateTime2 = LocalDateTime.now();
+    private InetAddress inetAddress2;
 
     @Before
     public void init() throws UnknownHostException {

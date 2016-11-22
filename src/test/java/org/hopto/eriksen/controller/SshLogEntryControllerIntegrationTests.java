@@ -2,8 +2,6 @@ package org.hopto.eriksen.controller;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import org.hopto.eriksen.domain.SshLogEntry;
@@ -15,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -27,12 +25,9 @@ import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
@@ -41,6 +36,8 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)												// SpringRunner is the new name for SpringJUnit4ClassRunner.class
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)	// Since spring 1.4 - the new way to do it instead of @SpringApplicationConfiguration(Application.class)
+@ActiveProfiles("test")
+//@TestPropertySource(locations = {"classpath:application-test.yml"})         // This only works for properties files!
 public class SshLogEntryControllerIntegrationTests {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -80,6 +77,14 @@ public class SshLogEntryControllerIntegrationTests {
         log.info("The response headers looks like: " + responseEntity.getHeaders().toString());
     }
 
+    /**
+     * If two or more identically log entries are posted shall the seconde return a 400!?
+     */
+    @Test
+    public void postOfTwoIdenticallyLogEntries() {
+        // TODO implement me
+    }
+
     /*
        Beaten bu the ugly stick...
 
@@ -87,7 +92,7 @@ public class SshLogEntryControllerIntegrationTests {
        to read the reasons why a TC has failed when (as below) you compare to a boolean
      */
     @Test
-    public void testSearchEndPoint() throws JsonParseException, JsonMappingException, IOException {
+    public void testSearchEndPoint() throws IOException {
         LocalDateTime localDateTime = LocalDateTime.now();
         InetAddress inetAddress1 = InetAddress.getByName("192.168.1.1");
         InetAddress inetAddress2 = InetAddress.getByName("192.168.1.2");

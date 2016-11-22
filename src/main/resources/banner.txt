@@ -10,4 +10,5 @@
  \      /     \       / |  |    |  | \       /
   `-..-'       `'-..-'  '--'    '--'  `-...-'
 
+Running on spring boot ${spring-boot.version}
 

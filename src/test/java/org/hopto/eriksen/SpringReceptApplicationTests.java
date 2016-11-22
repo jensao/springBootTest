@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(SpringRunner.class)												// SpringRunner is the new name for SpringJUnit4ClassRunner.class
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)	// Since spring 1.4 - the new way to do it instead of @SpringApplicationConfiguration(Application.class)
+@ActiveProfiles("test")
 public class SpringReceptApplicationTests {
 
 	@Autowired

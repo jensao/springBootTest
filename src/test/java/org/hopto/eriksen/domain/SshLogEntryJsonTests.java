@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -19,13 +20,14 @@ import static org.assertj.core.api.Assertions.*;
  */
 @RunWith(SpringRunner.class)
 @JsonTest
+@ActiveProfiles("test")
 public class SshLogEntryJsonTests {
 
     @Autowired
     private JacksonTester<SshLogEntry> json;
 
-    LocalDateTime dateTime2 = LocalDateTime.now();
-    InetAddress inetAddress2;
+    private LocalDateTime dateTime2 = LocalDateTime.now();
+    private InetAddress inetAddress2;
 
 
     // NOTE!!! It's probably better to use: assertThat(this.json.write(sshLogEntry)).isEqualToJson("expected.json");
