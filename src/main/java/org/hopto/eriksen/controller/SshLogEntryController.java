@@ -97,9 +97,15 @@ public class SshLogEntryController {
         log.debug("SshLogEntry received for storage: " + sshLogEntry.toString());
         // OBS check for second order injection here !!!
 
-        // TODO Validate that we don't store duplicates entries
-        sshLogEntryRepository.save(sshLogEntry);
-
+        Example<SshLogEntry> example = Example.of(sshLogEntry);
+        if(sshLogEntryRepository.exists(example)) {
+            log.debug("The SshLogEntry " + sshLogEntry + " already existed, will not store it");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        else {
+            sshLogEntryRepository.save(sshLogEntry);
+        }
+        
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")

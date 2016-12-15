@@ -1,7 +1,5 @@
 package org.hopto.eriksen.controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.ReadContext;
 import org.hopto.eriksen.domain.SshLogEntry;
@@ -78,15 +76,23 @@ public class SshLogEntryControllerIntegrationTests {
     }
 
     /**
-     * If two or more identically log entries are posted shall the seconde return a 400!?
+     * If two or more identically log entries are posted shall the second return a 400!?
      */
     @Test
-    public void postOfTwoIdenticallyLogEntries() {
-        // TODO implement me
+    public void postOfTwoIdenticallyLogEntries() throws UnknownHostException {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        InetAddress inetAddress = InetAddress.getByName("192.168.1.1");
+        SshLogEntry sshLogEntry = new SshLogEntry(inetAddress, localDateTime, "postOfTwoIdenticallyLogEntries", false);
+        ResponseEntity<SshLogEntry> responseEntity = restTemplate.postForEntity("/sshlog", sshLogEntry, SshLogEntry.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+      
+        // Second attempt shall not be ok
+        responseEntity = restTemplate.postForEntity("/sshlog", sshLogEntry, SshLogEntry.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     /*
-       Beaten bu the ugly stick...
+       Beaten by the ugly stick...
 
        Lessons learned: AssertThat(...) is probably only good if you have a object, since it makes it difficult
        to read the reasons why a TC has failed when (as below) you compare to a boolean
