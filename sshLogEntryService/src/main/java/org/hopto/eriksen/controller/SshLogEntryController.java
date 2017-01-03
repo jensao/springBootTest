@@ -95,7 +95,9 @@ public class SshLogEntryController {
     public ResponseEntity<SshLogEntry> createSshLogEntry(@Valid @RequestBody SshLogEntry sshLogEntry) {
 
         log.debug("SshLogEntry received for storage: " + sshLogEntry.toString());
-        // OBS check for second order injection here !!!
+
+        // TODO check for second order injection here?!!
+        // See e.g. https://github.com/coverity/coverity-security-library
 
         Example<SshLogEntry> example = Example.of(sshLogEntry);
         if(sshLogEntryRepository.exists(example)) {

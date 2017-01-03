@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.hopto.eriksen</groupId>
-	<artifactId>springBootTest</artifactId>
+	<artifactId>sshLogEntryService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>springBootTest</name>
-	<description>Different tryouts with spring boot</description>
+	<name>sshLogEntryService</name>
+	<description>A rest interface for ssh log entries</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
