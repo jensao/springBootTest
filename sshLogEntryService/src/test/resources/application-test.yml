@@ -21,5 +21,8 @@ logging:
       hibernate: ERROR
       springframework: INFO
   pattern:
-    console: "<>%-5level [%-13.13thread] %-45.45logger{44} :  %m%n"
+    console: "%-5level [%-13.13thread] %-45.45logger{44} :  %m%n"
 
+eureka:
+  client:
+    enabled: false

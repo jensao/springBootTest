@@ -1,16 +1,24 @@
 spring:
+  application:
+    name: ssh-log-entry-servervice
+
   jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: false
 #  jpa.properties.javax.persistence.schema-generation.scripts.create-target: my-schema.sql
 #  jpa.properties.javax.persistence.schema-generation.scripts.action: create
   datasource:
-    url: jdbc:mysql://192.168.56.101/ssh_log?useUnicode=yes&characterEncoding=UTF-8
-    username: ssh_user
-    password: periskop
-    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:hsqldb:mem:ssh_log;
+    username: test
+    password:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+#  datasource:
+#    url: jdbc:mysql://192.168.56.101/ssh_log?useUnicode=yes&characterEncoding=UTF-8
+#    username: ssh_user
+#    password: periskop
+#    driver-class-name: com.mysql.jdbc.Driver
 
 jpa:
-#    show-sql: true
-#    properties.hibernate.format_sql: true
+  show-sql: true
+  properties.hibernate.format_sql: true
 
 logging:
   level:
@@ -22,3 +30,7 @@ logging:
   pattern:
     console: "%-5level [%-13.13thread] %-45.45logger{44} :  %m%n"
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

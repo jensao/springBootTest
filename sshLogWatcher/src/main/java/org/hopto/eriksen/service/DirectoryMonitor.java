@@ -8,9 +8,7 @@ import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
-import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
-import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
+import static java.nio.file.StandardWatchEventKinds.*;
 
 /**
  * Created by jens on 2016-12-09.
@@ -20,8 +18,10 @@ public class DirectoryMonitor {
     Set<DirectoryChangedObserver> observers = new HashSet<>();
     private static Logger logger = LoggerFactory.getLogger(DirectoryMonitor.class);
 
-    Path path;
+    private final Path path;
+
     public DirectoryMonitor(Path path) {
+        logger.debug("Initializing a new DirectoryMonitor with path " + path);
         this.path = path;
     }
 
@@ -29,6 +29,7 @@ public class DirectoryMonitor {
         observers.add(observer);
     }
 
+//    @Override
     public void run() {
 
         WatchService watchService = null;

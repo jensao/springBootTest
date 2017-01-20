@@ -39,6 +39,8 @@ public class VarLogParser implements DirectoryChangedObserver {
                         // TODO Create a post rest request here !!!
                         .reduce((first, second) -> second);
 
+                // If the sshLogEntryService is down will this be updated anyway?
+                // It shall only be updated for the entries that is posted with a return code of 201
                 if(lastEntry.isPresent()) {
                     lastUpdated = lastEntry.get().getDate();
                     logger.debug("Last parsed ssh log entry had a timestamp of " + lastUpdated.format(DateTimeFormatter.ISO_DATE_TIME));
