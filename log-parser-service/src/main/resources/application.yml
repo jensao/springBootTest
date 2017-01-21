@@ -19,6 +19,6 @@ logging:
     ROOT: INFO
     org:
       hopto.eriksen: DEBUG
-      springframework: DEBUG
+      springframework: INFO
   pattern:
     console: "%-5level [%-13.13thread] %-45.45logger{44} :  %m%n"
