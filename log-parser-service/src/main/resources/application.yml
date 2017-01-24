@@ -1,18 +1,17 @@
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
+    leaseExpirationDurationInSeconds: 3
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-    healthcheck:
-      enabled: true
-    lease:
-      duration: 5
+
+server:
+  port: 8090
 
 spring:
   application:
-    name: ssh-log-watcher
+    name: log-parser-service
 
 logging:
   level:
