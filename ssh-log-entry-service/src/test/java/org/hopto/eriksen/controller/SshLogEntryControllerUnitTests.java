@@ -148,7 +148,8 @@ public class SshLogEntryControllerUnitTests {
         sshLogEntryList.add(sshLogEntry1);
         PageImpl<SshLogEntry> page = new PageImpl<>(sshLogEntryList);
 
-        when(sshLogEntryRepositoryMock.findAll(any(Example.class), any(PageRequest.class ))).thenReturn(page);
+        // TODO this gives compiler warnings, fixme
+        when(sshLogEntryRepositoryMock.findAll(any(Example.class), any(PageRequest.class))).thenReturn(page);
 
         // Since the PageImpl is created in the test isn't mush we actual can test
         mockMvc.perform(get("/sshlog/search?page=1&loggedIn=false&userName=root"))
