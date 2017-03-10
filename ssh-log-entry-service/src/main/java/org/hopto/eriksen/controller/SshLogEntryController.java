@@ -126,16 +126,20 @@ public class SshLogEntryController {
     @RequestMapping(value="/userstat", method= RequestMethod.GET)
     public ResponseEntity<Map<String, Integer>> getMostFrequentLoginNames() {
 
-        List<UserNameStatistics> respons =  sshLogEntryRepository.mostFrequentLoginNames();
-        log.info("The response: " + respons);
+        // Couldn't get this to work
+//        List<UserNameStatistics> respons =  sshLogEntryRepository.mostFrequentLoginNames();
 
-        // remove, Used for testing the response
-        Map<String, Integer> usersVsLogin = new HashMap<>();
-        usersVsLogin.put("root", 6);
-        usersVsLogin.put("admin", 3);
+        // This is a ugly hack to get around the mapping problem above
+        Map<String, Long> usersVsLogin = new HashMap<>();
+        List<Object[]> foo = sshLogEntryRepository.mostFrequentLoginNames();
+        for(Object[] obj : foo) {
+            String keyStr = (String) obj[0];
+            Long value = (Long) obj[1];
+            usersVsLogin.put(keyStr, value);
+        }
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        return new ResponseEntity<>(usersVsLogin, responseHeaders, HttpStatus.OK);
+        return new ResponseEntity(usersVsLogin, responseHeaders, HttpStatus.OK);
     }
 
     /**

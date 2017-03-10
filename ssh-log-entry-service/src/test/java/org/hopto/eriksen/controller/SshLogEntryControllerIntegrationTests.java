@@ -40,9 +40,9 @@ public class SshLogEntryControllerIntegrationTests {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
+    private static final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+                                        MediaType.APPLICATION_JSON.getSubtype(),
+                                        Charset.forName("utf8"));
 
     @Autowired
     private TestRestTemplate restTemplate;

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
-
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,4 +53,24 @@ public class SshLogEntryRepositoryTests {
         assertEquals(dateTime2, sshLogEntry.getDate());
         assertFalse(sshLogEntry.isLoggedIn());
     }
+
+    @Test
+    public void testMostFrequentLoginNames() {
+        List<Object[]> foo = sshLogEntryRepository.mostFrequentLoginNames();
+        for(Object[] obj : foo) {
+            String keyStr = (String) obj[0];
+            Long value = (Long) obj[1];
+            System.out.println("Key is: " + keyStr + " Value is: " + value);
+        }
+        // TODO assertEquals...
+    }
+
+//    @Test
+//    public void testMostFrequentLoginNames() {
+//        List<UserNameStatistics> foo = sshLogEntryRepository.mostFrequentLoginNames();
+//        for(UserNameStatistics obj : foo) {
+//            System.out.println("------: " + obj);
+//        }
+//    }
+
 }
